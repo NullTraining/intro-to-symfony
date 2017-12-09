@@ -3,69 +3,62 @@
 namespace App\Controller;
 
 use App\Entity\Product;
+use App\Repository\CategoryRepository;
 use App\Repository\FakeProductRepository;
 use App\Repository\ProductRepository;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-class ProductsController extends Controller
+class ProductsController
 {
     /** @var ProductRepository */
     private $repository;
     /** @var EntityManager */
     private $entityManager;
+    /** @var CategoryRepository */
+    private $categoryRepository;
 
-    public function __construct(ProductRepository $repository,
-        EntityManagerInterface $entityManager)
-    {
+    public function __construct(
+        ProductRepository $repository,
+        CategoryRepository $categoryRepository,
+        EntityManagerInterface $entityManager
+    ) {
         $this->repository = $repository;
+        $this->categoryRepository = $categoryRepository;
         $this->entityManager = $entityManager;
     }
 
     /**
      * @Route("/products")
+     * @Template()
      */
     public function listAction()
     {
-        $product = new Product();
-        $product->setTitle('zzz'.time());
-
-        $this->entityManager->persist($product);
-        $this->entityManager->flush();
-
-        $data = [ 'products' => $this->repository->findAll(),];
-
-        return $this->render('products.html.twig', $data);
+        return ['products' => $this->repository->findAll(),];
     }
 
-    /** @Route("/products/{page}") */
+    /**
+     * @Route("/products/{page}")
+     * @Template()
+     */
     public function pagingAction($page)
     {
-        $data = [ 'product' => $this->repository->findBy([], [], 1)[0],];
-
-        return $this->render('product.html.twig', $data);
+        return ['product' => $this->repository->findBy([], [], 1)[0],];
     }
 
-    /** @Route("/product/{id}") */
-    public function showAction($id)
+    /**
+     * @Route("/product/{id}")
+     * @Template()
+     */
+    public function showAction(Product $product)
     {
-        $data = [ 'product' => $this->repository->find($id),];
-
-        return $this->render('product.html.twig', $data);
+        return ['product' => $product];
     }
 
 }
-
-/**
- * @ORM\OneToMany(targetEntity="App\Entity\Product", mappedBy="category")
- */
-
-/**
- * @ORM\ManyToOne(targetEntity="App\Entity\Category", inversedBy="products")
- * @ORM\JoinColumn(nullable=true)
- */

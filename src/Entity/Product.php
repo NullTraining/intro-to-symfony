@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -21,6 +22,21 @@ class Product
      */
     private $title;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Category", inversedBy="products")
+     */
+    private $category;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\Shop", inversedBy="products")
+     */
+    private $shops;
+
+    public function __construct()
+    {
+        $this->shops = new ArrayCollection();
+    }
+
     public function getId()
     {
         return $this->id;
@@ -39,6 +55,21 @@ class Product
     public function setTitle($title)
     {
         $this->title = $title;
+    }
+
+    public function getCategory()
+    {
+        return $this->category;
+    }
+
+    public function setCategory(Category $category)
+    {
+        $this->category = $category;
+    }
+
+    public function getShops()
+    {
+        return $this->shops;
     }
 
 }

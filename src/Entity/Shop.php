@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -16,11 +17,20 @@ class Shop
      */
     private $id;
 
-
     /**
      * @ORM\Column(type="string",length=200)
      */
     private $address;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\Product", mappedBy="shops")
+     */
+    private $products;
+
+    public function __construct()
+    {
+        $this->products = new ArrayCollection();
+    }
 
     public function getId()
     {
@@ -41,4 +51,10 @@ class Shop
     {
         $this->address = $address;
     }
+
+    public function getProducts() : mixed
+    {
+        return $this->products;
+    }
+
 }

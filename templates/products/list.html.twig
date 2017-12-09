@@ -13,6 +13,14 @@
             <td>
                 {{ product.title }}
             </td>
+            <td>
+                {{ product.category.name }}
+            </td>
+            <td>
+                {% for shop in product.shops %}
+                    {{ shop.address }} :: //
+                {% endfor %}
+            </td>
         </tr>
     {% endfor %}
     </table>
