@@ -1,0 +1,33 @@
+{% extends 'base.html.twig' %}
+
+
+{% block title %}
+    Hey {{ name }}
+{% endblock %}
+
+{% block body %}
+
+    {% if name == 'miro' %}
+        No!
+    {% else %}
+        Hello {{ name }} we have not seen you in {{ days }} days!
+    {% endif %}
+
+
+
+    <table>
+    {% for key,product in products %}
+        <tr>
+            <td>
+                {{ key }}
+            </td>
+            <td>
+                {{ product.model }}
+            </td>
+            <td>
+                {{ product.engine }}
+            </td>
+        </tr>
+    {% endfor %}
+    </table>
+{% endblock %}

@@ -3,11 +3,12 @@
 namespace App\Controller;
 
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-class HomepageController
+class HomepageController extends Controller
 {
 
     public function indexAction()
@@ -20,6 +21,51 @@ class HomepageController
      */
     public function helloAction(Request $request)
     {
-        return new Response('Hello '.$request->get('name').', we have not seen you for '.$request->get('days').' days!');
+        $data = [
+            'name'     => $request->get('name'),
+            'days'     => $request->get('days'),
+            'products' => [
+                'bmw'      => [
+                    'model'  => '3',
+                    'engine' => 'diesel',
+                ],
+                'mazda'    => [
+                    'model'  => '636',
+                    'engine' => 'gasoline',
+                ],
+                'mercedes' => new Car(),
+                'mercedes2' => new Car2(),
+            ],
+        ];
+
+        return $this->render('hello.html.twig', $data);
+
     }
+
+    /**
+     * @Route("/google-analytics-code/{url}")
+     */
+    public function googleAnalyticsAction($url)
+    {
+        return $this->render('google-analytics-code.html.twig', ['url' => $url]);
+    }
+}
+
+class Car
+{
+    public function getModel()
+    {
+        return 'C class';
+    }
+
+    public function hasEngine()
+    {
+        return 'diesel';
+    }
+}
+
+class Car2
+{
+    public $model = 'C class';
+    public $engine = 'diesel';
 }
