@@ -10,3 +10,8 @@
 /.vagrant
 .DS_Store
 /Vagrantfile
+
+###> symfony/phpunit-bridge ###
+.phpunit
+/phpunit.xml
+###< symfony/phpunit-bridge ###
