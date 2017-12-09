@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 class HomepageController
@@ -17,8 +18,8 @@ class HomepageController
     /**
      * @Route("/hello/{name}/{days}",requirements={"days":"\d+"})
      */
-    public function helloAction(int $days, $name)
+    public function helloAction(Request $request)
     {
-        return new Response('Hello '.$name.', we have not seen you for '.$days.' days!');
+        return new Response('Hello '.$request->get('name').', we have not seen you for '.$request->get('days').' days!');
     }
 }
