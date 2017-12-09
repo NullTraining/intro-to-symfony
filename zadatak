@@ -1,0 +1,9 @@
+
+
+
+Add new url '/products' that will show all of the products from list
+
+Add new url '/products/1' that will show 1st product in list
+
+Add new url '/product/1' that will show product with id 1
+
