@@ -11,14 +11,14 @@ class HomepageController
 
     public function indexAction()
     {
-        return new JsonResponse(['id'=>1,'name'=>'John']);
+        return new JsonResponse(['id' => 1, 'name' => 'John']);
     }
 
     /**
-     * @Route("/hello")
+     * @Route("/hello/{name}/{days}",requirements={"days":"\d+"})
      */
-    public function helloAction()
+    public function helloAction(int $days, $name)
     {
-        return new Response('Hello');
+        return new Response('Hello '.$name.', we have not seen you for '.$days.' days!');
     }
 }
